@@ -85,6 +85,10 @@ public class Character {
         return priorityLevel;
     }
     
+    public void setPriorityLevel(int priorityLevel){
+        this.priorityLevel = priorityLevel;
+    }
+    
     private String generateRandomAbility() {
         String[] abilities = {"Fireball", "Healing Touch", "Stealth", "Telekinesis", "Ice Blast"};
         Random random = new Random();

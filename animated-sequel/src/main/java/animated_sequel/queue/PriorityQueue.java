@@ -20,15 +20,14 @@ public class PriorityQueue<T> {
     public void add(T data, int priority) {
         Node<T> newNode = new Node<>(data, priority);
 
-        if (head == null || priority < head.getPriority()) {
+        if (head == null) {
             newNode.setNext(head);
             head = newNode;
         } else {
             Node<T> curr = head;
-            while (curr.getNext() != null && priority >= curr.getNext().getPriority()) {
+            while (curr.getNext() != null) {
                 curr = curr.getNext();
             }
-            newNode.setNext(curr.getNext());
             curr.setNext(newNode);
         }
 
@@ -60,5 +59,29 @@ public class PriorityQueue<T> {
 
     public int size() {
         return size;
+    }
+    public boolean remove(T element) {
+        if (head == null) {
+            return false;
+        }
+
+        if (head.getData().equals(element)) {
+            head = head.getNext();
+            size--;
+            return true;
+        }
+
+        Node<T> curr = head;
+        while (curr.getNext() != null && !curr.getNext().getData().equals(element)) {
+            curr = curr.getNext();
+        }
+
+        if (curr.getNext() != null) {
+            curr.setNext(curr.getNext().getNext());
+            size--;
+            return true;
+        }
+
+        return false;
     }
 }

@@ -3,75 +3,98 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package animated_sequel.simulation;
-
+import animated_sequel.studios.CartoonNetwork;
+import animated_sequel.studios.Nickelodeon;
+import animated_sequel.queue.PriorityQueue;
+import animated_sequel.characters.Character;
 /**
  *
  * @author USUARIO
  */
 
 public class Administrator {
-    public void startSimulation() {
-        // Lógica para comenzar la simulación
-        selectCharactersForRound();
+    private CartoonNetwork cartoon;
+    private Nickelodeon nickelodeon;
+    private IA ia;
+
+    public Administrator(){
+        cartoon = new CartoonNetwork();
+        nickelodeon = new Nickelodeon();
+        ia = new IA();
     }
 
-    private void selectCharactersForRound() {
-        // Lógica para seleccionar los personajes que participarán en la ronda
-        Character character1 = getNextCharacterFromQueue1();
-        Character character2 = getNextCharacterFromQueue2();
+    public void assignCharacters() {
+        cartoon.generateCharacters();
+        nickelodeon.generateCharacters();
 
-        if (character1 != null && character2 != null) {
-            simulateBattle(character1, character2);
-        }
-    }
+        PriorityQueue<Character> cartoonQueue1 = cartoon.getPriorityQueue1();
+        PriorityQueue<Character> cartoonQueue2 = cartoon.getPriorityQueue2();
+        PriorityQueue<Character> cartoonQueue3 = cartoon.getPriorityQueue3();
+        PriorityQueue<Character> cartoonReinforceQueue = cartoon.getReinforceQueue();
 
-    private void simulateBattle(Character character1, Character character2) {
-        // Lógica de simulación de batalla
-        String resultadoBatalla = performBattle(character1, character2);
+        PriorityQueue<Character> nickelodeonQueue1 = nickelodeon.getPriorityQueue1();
+        PriorityQueue<Character> nickelodeonQueue2 = nickelodeon.getPriorityQueue2();
+        PriorityQueue<Character> nickelodeonQueue3 = nickelodeon.getPriorityQueue3();
+        PriorityQueue<Character> nickelodeonReinforceQueue = nickelodeon.getReinforceQueue();
 
-        handleBattleResult(resultadoBatalla);
-    }
-
-    private String performBattle(Character character1, Character character2) {
-        // Lógica para realizar la simulación de la batalla entre los personajes
-        // ...
-
-        // En este ejemplo, se devuelve un resultado aleatorio ("ganador", "empate" o "perdedor")
-        String[] resultados = {"ganador", "empate", "perdedor"};
-        int randomIndex = (int) (Math.random() * resultados.length);
-        return resultados[randomIndex];
-    }
-
-    private void handleBattleResult(String resultadoBatalla) {
-        // Lógica para manejar el resultado de la batalla y tomar decisiones
-        if (resultadoBatalla.equals("ganador")) {
-            // Realizar acciones correspondientes al ganador
-            // ...
-        } else if (resultadoBatalla.equals("empate")) {
-            // Realizar acciones correspondientes al empate
-            // ...
-        } else {
-            // Realizar acciones correspondientes al perdedor
-            // ...
+        while (!cartoonReinforceQueue.isEmpty()) {
+            Character character = cartoonReinforceQueue.poll();
+            int priorityLevel = character.getPriorityLevel();
+            switch (priorityLevel) {
+                case 1:
+                    cartoonQueue1.add(character,character.getPriorityLevel());
+                    break;
+                case 2:
+                    cartoonQueue2.add(character, character.getPriorityLevel());
+                    break;
+                case 3:
+                    cartoonQueue3.add(character, character.getPriorityLevel());
+                    break;
+            }
         }
 
-        // Continuar con la siguiente ronda
-        selectCharactersForRound();
+        while (!nickelodeonReinforceQueue.isEmpty()) {
+            Character character = nickelodeonReinforceQueue.poll();
+            int priorityLevel = character.getPriorityLevel();
+            switch (priorityLevel) {
+                case 1:
+                    nickelodeonQueue1.add(character, character.getPriorityLevel());
+                    break;
+                case 2:
+                    nickelodeonQueue2.add(character, character.getPriorityLevel());
+                    break;
+                case 3:
+                    nickelodeonQueue3.add(character, character.getPriorityLevel());
+                    break;
+            }
+        }
     }
+    
+    public void performCombatAssignment() {
+        PriorityQueue<Character>[] cartoonQueues = new PriorityQueue[]{
+            cartoon.getPriorityQueue1(),
+            cartoon.getPriorityQueue2(),
+            cartoon.getPriorityQueue3()
+        };
 
-    private Character getNextCharacterFromQueue1() {
-        // Lógica para obtener el siguiente personaje de la cola 1
-        // ...
+        PriorityQueue<Character>[] nickelodeonQueues = new PriorityQueue[]{
+            nickelodeon.getPriorityQueue1(),
+            nickelodeon.getPriorityQueue2(),
+            nickelodeon.getPriorityQueue3()
+        };
 
-        // En este ejemplo, devolvemos un personaje ficticio
-        return new Character("Personaje 1", 1);
-    }
+        for (int i = 0; i < cartoonQueues.length; i++) {
+            PriorityQueue<Character> cartoonQueue = cartoonQueues[i];
+            PriorityQueue<Character> nickelodeonQueue = nickelodeonQueues[i];
 
-    private Character getNextCharacterFromQueue2() {
-        // Lógica para obtener el siguiente personaje de la cola 2
-        // ...
+            while (!cartoonQueue.isEmpty() && !nickelodeonQueue.isEmpty()) {
+                Character characterCartoon = cartoonQueue.poll();
+                Character characterNickelodeon = nickelodeonQueue.poll();
 
-        // En este ejemplo, devolvemos un personaje ficticio
-        return new Character("Personaje 2", 2);
+                ia.combat(characterCartoon, characterNickelodeon, nickelodeonQueue, cartoonQueue, cartoon.getPriorityQueue1(), nickelodeon.getPriorityQueue1(), nickelodeon.getReinforceQueue(), cartoon.getReinforceQueue());
+            }
+        }
     }
 }
+    
+    

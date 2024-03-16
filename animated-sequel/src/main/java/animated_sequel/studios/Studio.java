@@ -13,11 +13,12 @@ import animated_sequel.queue.PriorityQueue;
  * @author USUARIO
  */
 class Studio {
-    private static final int NUM_PERSONAJES = 10; // Número de personajes a generar
+    private static final int NUM_PERSONAJES = 20;
 
     private PriorityQueue<Character> priorityQueue1;
     private PriorityQueue<Character> priorityQueue2;
     private PriorityQueue<Character> priorityQueue3;
+    private PriorityQueue<Character> reinforceQueue;
     private String studioName;
    
 
@@ -25,19 +26,53 @@ class Studio {
         priorityQueue1 = new PriorityQueue<>();
         priorityQueue2 = new PriorityQueue<>();
         priorityQueue3 = new PriorityQueue<>();
+        reinforceQueue = new PriorityQueue<>();
         this.studioName = name;
+    }
+    
+    public PriorityQueue<Character> getPriorityQueue1() {
+        return priorityQueue1;
+    }
+
+    public void setPriorityQueue1(PriorityQueue<Character> priorityQueue1) {
+        this.priorityQueue1 = priorityQueue1;
+    }
+
+    public PriorityQueue<Character> getPriorityQueue2() {
+        return priorityQueue2;
+    }
+
+    public void setPriorityQueue2(PriorityQueue<Character> priorityQueue2) {
+        this.priorityQueue2 = priorityQueue2;
+    }
+
+    public PriorityQueue<Character> getPriorityQueue3() {
+        return priorityQueue3;
+    }
+
+    public void setPriorityQueue3(PriorityQueue<Character> priorityQueue3) {
+        this.priorityQueue3 = priorityQueue3;
+    }
+
+    public PriorityQueue<Character> getReinforceQueue() {
+        return reinforceQueue;
+    }
+
+    public void setReinforceQueue(PriorityQueue<Character> reinforceQueue) {
+        this.reinforceQueue = reinforceQueue;
     }
 
     public void generateCharacters() {
         for (int i = 0; i < NUM_PERSONAJES; i++) {
             Character character = createCharacter();
-            if (character.getPriorityLevel() == 1) {
+            /*if (character.getPriorityLevel() == 1) {
                 priorityQueue1.add(character, character.getPriorityLevel());
             } else if (character.getPriorityLevel() == 2) {
                 priorityQueue2.add(character, character.getPriorityLevel());
             } else {
                 priorityQueue3.add(character, character.getPriorityLevel());
-            }
+            }*/
+            reinforceQueue.add(character, character.getPriorityLevel());
         }
     }
 
