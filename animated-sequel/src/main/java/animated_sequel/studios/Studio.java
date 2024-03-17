@@ -84,6 +84,7 @@ class Studio {
         int healthPoints = 0;
         int strength = 0;
         int agility = 0;
+        int counter = 0;
 
         if (priorityLevel == 1) {
             name = "Exceptional Character";
@@ -102,7 +103,7 @@ class Studio {
             agility = 50;
         }
 
-        return new Character(name, company, priorityLevel, healthPoints, strength, agility);
+        return new Character(name, company, priorityLevel, healthPoints, strength, agility, counter);
     }
 
     private int determinePriorityLevel() {

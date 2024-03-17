@@ -30,8 +30,10 @@ public class IA {
             
             if (winner == cartoonCharacter) {
                 nickelodeonQueue.remove(nickelodeonCharacter);
+                reinforceNickelodeon.remove(nickelodeonCharacter);
             } else {
                 cartoonQueue.remove(cartoonCharacter);
+                reinforceCartoon.remove(cartoonCharacter);
             }
         } else if (result <= 0.67) {
             System.out.println("The battle ended in a draw.");
@@ -78,6 +80,7 @@ public class IA {
         } else {
             return Math.random() < 0.5 ? cartoonCharacter : nickelodeonCharacter;
         }
+        
     }
 
     

@@ -13,11 +13,13 @@ public class Node<T> {
     private T data;
     private int priority;
     private Node<T> next;
+    private int counter;
 
     public Node(T data, int priority) {
         this.data = data;
         this.priority = priority;
         this.next = null;
+        this.counter = 0;
     }
 
     public T getData() {
@@ -34,5 +36,17 @@ public class Node<T> {
 
     public void setNext(Node<T> next) {
         this.next = next;
+    }
+  
+    public void incrementCounter() {
+        counter++;
+    }
+    
+    public void resetCounter() {
+        counter = 0;
+    }
+
+    public boolean isCounterReachedLimit(int limit) {
+        return counter >= limit;
     }
 }

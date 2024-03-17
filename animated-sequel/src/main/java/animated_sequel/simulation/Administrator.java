@@ -7,6 +7,8 @@ import animated_sequel.studios.CartoonNetwork;
 import animated_sequel.studios.Nickelodeon;
 import animated_sequel.queue.PriorityQueue;
 import animated_sequel.characters.Character;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author USUARIO
@@ -95,6 +97,10 @@ public class Administrator {
             }
         }
     }
+   public void verifyCounter(PriorityQueue cartoonQueue2, PriorityQueue cartoonQueue3, PriorityQueue nickelodeonQueue2, PriorityQueue nickelodeonQueue3){
+       
+       
+   }
 }
     
     

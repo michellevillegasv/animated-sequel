@@ -21,6 +21,7 @@ public class Character {
     private int strength;
     private int agility;
     private String ability;
+    private int counter;
 
     public Character(String name, String company) {
         this.id = nextId++;
@@ -29,7 +30,7 @@ public class Character {
         this.priorityLevel = 0;
     }
 
-    public Character(String name, String company, int priorityLevel,  int healthPoints, int strength, int agility) {
+    public Character(String name, String company, int priorityLevel,  int healthPoints, int strength, int agility, int counter) {
         this.id = nextId++;
         this.name = name;
         this.company = company;
@@ -38,6 +39,7 @@ public class Character {
         this.strength = strength;
         this.agility = agility;
         this.ability = generateRandomAbility();
+        this.counter = counter; 
     }
 
 
@@ -113,4 +115,15 @@ public class Character {
         return random.nextDouble() <= probability;
     }
     
+    public void increaseCounter() {
+        counter++;
+    }
+
+    public void resetCounter() {
+        counter = 0;
+    }
+
+    public void decreasePriority() {
+        counter--;
+    }
 }

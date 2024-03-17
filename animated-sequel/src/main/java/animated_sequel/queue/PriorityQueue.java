@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package animated_sequel.queue;
+import animated_sequel.characters.Character;
 /**
  *
  * @author USUARIO
@@ -15,6 +16,10 @@ public class PriorityQueue<T> {
     public PriorityQueue() {
         head = null;
         size = 0;
+    }
+    
+    public Node getHead(){
+        return head;
     }
 
     public void add(T data, int priority) {
@@ -84,4 +89,5 @@ public class PriorityQueue<T> {
 
         return false;
     }
+    
 }
