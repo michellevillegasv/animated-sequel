@@ -7,8 +7,7 @@ import animated_sequel.studios.CartoonNetwork;
 import animated_sequel.studios.Nickelodeon;
 import animated_sequel.queue.PriorityQueue;
 import animated_sequel.characters.Character;
-import java.util.ArrayList;
-import java.util.List;
+
 /**
  *
  * @author USUARIO
@@ -97,10 +96,36 @@ public class Administrator {
             }
         }
     }
-   public void verifyCounter(PriorityQueue cartoonQueue2, PriorityQueue cartoonQueue3, PriorityQueue nickelodeonQueue2, PriorityQueue nickelodeonQueue3){
-       
-       
-   }
+    public void verifyCounter(PriorityQueue<Character> cartoonQueue1,PriorityQueue<Character> cartoonQueue2, PriorityQueue<Character> cartoonQueue3,PriorityQueue<Character> nickelodeonQueue1, PriorityQueue<Character> nickelodeonQueue2, PriorityQueue<Character> nickelodeonQueue3) {
+        verifyAndMoveCharacters(cartoonQueue3, cartoonQueue2);
+        verifyAndMoveCharacters(cartoonQueue2, cartoonQueue1);
+        verifyAndMoveCharacters(nickelodeonQueue3, nickelodeonQueue2);
+        verifyAndMoveCharacters(nickelodeonQueue2, nickelodeonQueue1);
+    }
+
+    private void verifyAndMoveCharacters(PriorityQueue<Character> sourceQueue, PriorityQueue<Character> targetQueue) {
+        PriorityQueue auxQueue = new PriorityQueue();
+        
+        while (!sourceQueue.isEmpty()) {
+            Character character = sourceQueue.poll();
+            character.increaseCounter();
+
+            if (character.getCounter() >= 8) {
+                character.resetCounter();
+                if(character.getPriorityLevel()==2){
+                    character.setPriorityLevel(1);
+                } else if(character.getPriorityLevel()==3){
+                    character.setPriorityLevel(2);
+                }
+                targetQueue.add(character, character.getPriorityLevel());
+                sourceQueue.remove(character);
+            } else {
+                auxQueue.add(character, character.getPriorityLevel());
+            }
+        }
+        
+        sourceQueue = auxQueue;
+    }
 }
     
     

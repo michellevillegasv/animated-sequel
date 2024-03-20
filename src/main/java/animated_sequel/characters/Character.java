@@ -66,6 +66,10 @@ public class Character {
     public int getAgility() {
         return agility;
     }
+    
+    public int getCounter() {
+        return counter;
+    }
 
     public void setAgility(int agility) {
         this.agility = agility;
