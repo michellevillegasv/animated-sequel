@@ -1,8 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package animated_sequel;
+
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+import animated_sequel.simulation.Administrator;
+import animated_sequel.ui.SimulationPanel;
 
 /**
  *
@@ -11,6 +14,17 @@ package animated_sequel;
 public class AnimatedSequel {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+
+        Administrator simulation = new Administrator();
+        SimulationPanel simulationPanel = new SimulationPanel(simulation);
+
+        JFrame frame = new JFrame("Animated Sequel");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setMinimumSize(new Dimension(1080, 800));
+        frame.add(simulationPanel);
+        frame.pack();
+        frame.setVisible(true);
+
+        simulation.start();
     }
 }

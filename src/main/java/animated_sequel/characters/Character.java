@@ -1,133 +1,82 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package animated_sequel.characters;
 
-import java.util.Random;
+import javax.swing.Icon;
 
-/**
- *
- * @author USUARIO
- */
 public class Character {
-    private static int nextId = 1;
+  public static final int EXCEPTIONAL_TYPE = 0;
+  public static final int AVERAGE_TYPE = 1;
+  public static final int DEFICIENT_TYPE = 2;
 
-    private int id;
-    private String name;
-    private String company;
-    private int priorityLevel;
-    private int healthPoints;
-    private int strength;
-    private int agility;
-    private String ability;
-    private int counter;
+  public static final int STANDARD_STAT = 0;
+  public static final int QUALITY_STAT = 1;
 
-    public Character(String name, String company) {
-        this.id = nextId++;
-        this.name = name;
-        this.company = company;
-        this.priorityLevel = 0;
-    }
+  private final String id;
+  private final int type;
+  private final int skills;
+  private final int lifePoints;
+  private final int strength;
+  private final int agility;
+  private final Icon icon;
 
-    public Character(String name, String company, int priorityLevel,  int healthPoints, int strength, int agility, int counter) {
-        this.id = nextId++;
-        this.name = name;
-        this.company = company;
-        this.priorityLevel = priorityLevel;
-        this.healthPoints = healthPoints;
-        this.strength = strength;
-        this.agility = agility;
-        this.ability = generateRandomAbility();
-        this.counter = counter; 
-    }
+  private int roundCounter = 0;
 
+  public Character(String id, int skills, int lifePoints, int strength, int agility, Icon icon) {
+    this.id = id;
+    this.skills = skills;
+    this.lifePoints = lifePoints;
+    this.strength = strength;
+    this.agility = agility;
+    this.icon = icon;
 
-    public String getName() {
-        return name;
-    }
+    int rating = skills + lifePoints + strength + agility;
 
-  public int getHealthPoints() {
-        return healthPoints;
+    if (rating == 4) {
+      this.type = EXCEPTIONAL_TYPE;
+    } else if (rating == 3) {
+      this.type = AVERAGE_TYPE;
+    } else {
+      this.type = DEFICIENT_TYPE;
     }
+  }
 
-    public void setHealthPoints(int healthPoints) {
-        this.healthPoints = healthPoints;
-    }
+  public int incrementRoundCounter() {
+    roundCounter += 1;
+    return roundCounter;
+  }
 
-    public int getStrength() {
-        return strength;
-    }
+  public void resetRoundCounter() {
+    roundCounter = 0;
+  }
 
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
+  public int getRoundCounter() {
+    return roundCounter;
+  }
 
-    public int getAgility() {
-        return agility;
-    }
-    
-    public int getCounter() {
-        return counter;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setAgility(int agility) {
-        this.agility = agility;
-    }
+  public int getAgility() {
+    return agility;
+  }
 
-    public String getAbility() {
-        return ability;
-    }
+  public int getLifePoints() {
+    return lifePoints;
+  }
 
-    public int getId() {
-        return id;
-    }
+  public int getSkills() {
+    return skills;
+  }
 
-    public String getCompany() {
-        return company;
-    }
+  public int getStrength() {
+    return strength;
+  }
 
-    public int getPriorityLevel() {
-        return priorityLevel;
-    }
-    
-    public void setPriorityLevel(int priorityLevel){
-        this.priorityLevel = priorityLevel;
-    }
-    
-    private String generateRandomAbility() {
-        String[] abilities = {"Fireball", "Healing Touch", "Stealth", "Telekinesis", "Ice Blast"};
-        Random random = new Random();
-        int index = random.nextInt(abilities.length);
-        return abilities[index];
-    }
-    
-    public boolean isExceptional() {
-        return isQuality(0.6);
-    }
+  public int getType() {
+    return type;
+  }
 
-    public boolean isAverage() {
-        return isQuality(0.5);
-    }
-
-    public boolean isDeficient() {
-        return isQuality(0.4);
-    }
-
-    private boolean isQuality(double probability) {
-        Random random = new Random();
-        return random.nextDouble() <= probability;
-    }
-    
-    public void increaseCounter() {
-        counter++;
-    }
-
-    public void resetCounter() {
-        counter = 0;
-    }
-
-    public void decreasePriority() {
-        counter--;
-    }
+  public Icon getIcon() {
+    return icon;
+  }
 }
