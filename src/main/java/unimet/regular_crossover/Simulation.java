@@ -14,15 +14,18 @@ public class Simulation extends Thread {
 
   public Simulation() {
     Icon[] avatarResources = new Icon[20];
+    Icon[] regularShowResources = new Icon[20];
     for (int i = 0; i < 20; i++) {
       avatarResources[i] = new ImageIcon(
           ClassLoader.getSystemResource((String.format("avatar-icons/%02d.png", i + 1))));
+      regularShowResources[i] = new ImageIcon(
+          ClassLoader.getSystemResource((String.format("regular-show-icons/%02d.png", i + 1))));
     }
 
     artificialIntelligence = new ArtificialIntelligence(this);
     administrator = new Administrator(this);
     leftTeam = new Team("Avatar: The Last Airbender", new CharacterFactory("ATLA", avatarResources));
-    rightTeam = new Team("Regular Show", new CharacterFactory("RS", avatarResources));
+    rightTeam = new Team("Regular Show", new CharacterFactory("RS", regularShowResources));
   }
 
   @Override
