@@ -1,5 +1,7 @@
 package unimet.regular_crossover;
 
+import javax.swing.Icon;
+
 public class CharacterFactory {
   private static final double QUALITY_SKILL_ODDS = 0.6;
   private static final double QUALITY_LIFE_POINTS_ODDS = 0.7;
@@ -7,10 +9,12 @@ public class CharacterFactory {
   private static final double QUALITY_AGILITY_ODDS = 0.4;
 
   private final String code;
+  private final Icon[] icons;
   private int counter = 1;
 
-  public CharacterFactory(String code) {
+  public CharacterFactory(String code, Icon[] icons) {
     this.code = code;
+    this.icons = icons;
   }
 
   public Character createCharacter() {
@@ -21,6 +25,9 @@ public class CharacterFactory {
     int agility = Math.random() < QUALITY_AGILITY_ODDS ? Character.QUALITY_STAT : Character.STANDARD_STAT;
 
     /* Crea el personaje con un ID único incremental */
-    return new Character(String.format("%s-%d", code, counter++), skills, lifePoints, strength, agility);
+    Character character = new Character(String.format("%s-%d", code, counter), skills, lifePoints, strength, agility,
+        icons[counter % icons.length]);
+    counter += 1;
+    return character;
   }
 }

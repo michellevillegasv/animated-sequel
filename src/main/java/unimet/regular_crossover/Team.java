@@ -13,15 +13,12 @@ public class Team {
   private final CharacterFactory factory;
 
   private final String name;
-  private final String code;
 
   private int winCount = 0;
 
-  public Team(String name, String code) {
+  public Team(String name, CharacterFactory factory) {
     this.name = name;
-    this.code = code;
-
-    factory = new CharacterFactory(code);
+    this.factory = factory;
 
     /* Crear personajes iniciales */
     for (int i = 0; i < INITIAL_CHARACTER_COUNT; i++) {
@@ -112,10 +109,6 @@ public class Team {
 
   public String getName() {
     return name;
-  }
-
-  public String getCode() {
-    return code;
   }
 
   public CharacterQueue[] getPriorityQueue() {

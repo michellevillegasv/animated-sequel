@@ -1,5 +1,7 @@
 package unimet.regular_crossover;
 
+import javax.swing.Icon;
+
 public class Character {
   public static final int DEFICIENT_TYPE = 0;
   public static final int AVERAGE_TYPE = 1;
@@ -14,15 +16,17 @@ public class Character {
   private final int lifePoints;
   private final int strength;
   private final int agility;
+  private final Icon icon;
 
   private int roundCounter = 0;
 
-  public Character(String id, int skills, int lifePoints, int strength, int agility) {
+  public Character(String id, int skills, int lifePoints, int strength, int agility, Icon icon) {
     this.id = id;
     this.skills = skills;
     this.lifePoints = lifePoints;
     this.strength = strength;
     this.agility = agility;
+    this.icon = icon;
 
     int rating = skills + lifePoints + strength + agility;
 
@@ -70,5 +74,9 @@ public class Character {
 
   public int getType() {
     return type;
+  }
+
+  public Icon getIcon() {
+    return icon;
   }
 }

@@ -25,8 +25,6 @@ import unimet.regular_crossover.Simulation;
 public class SimulationPanel extends JPanel {
   private JLabel lastResultLabel;
   private JLabel iaStatusLabel;
-  private JLabel leftFighterLabel;
-  private JLabel rightFighterLabel;
 
   public SimulationPanel(Simulation simulation) {
     setPreferredSize(new Dimension(1280, 800));
@@ -58,11 +56,10 @@ public class SimulationPanel extends JPanel {
       simulation.setSpeed(speedSlider.getValue());
     });
 
-    leftFighterLabel = new JLabel();
-    rightFighterLabel = new JLabel();
-    simulation.getArtificialIntelligence().getFightObserver().addObserver((Character[] ch) -> {
-      leftFighterLabel.setText(ch[0].getId());
-      rightFighterLabel.setText(ch[1].getId());
+    FightPanel fightPanel = new FightPanel();
+    simulation.getArtificialIntelligence().getFightObserver().addObserver((
+        Character[] ch) -> {
+      fightPanel.setCharacters(ch[0], ch[1]);
     });
 
     lastResultLabel = new JLabel();
@@ -151,11 +148,7 @@ public class SimulationPanel extends JPanel {
 
     simulationPanel.add(new TitleLabel("Pelea actual"), gbc);
     gbc.insets = new Insets(8, 16, 8, 16);
-    simulationPanel.add(leftFighterLabel, gbc);
-    gbc.insets = new Insets(0, 16, 0, 16);
-    simulationPanel.add(new JLabel("vs"), gbc);
-    gbc.insets = new Insets(8, 16, 8, 16);
-    simulationPanel.add(rightFighterLabel, gbc);
+    simulationPanel.add(fightPanel, gbc);
 
     gbc.insets = new Insets(8, 16, 8, 16);
     simulationPanel.add(new TitleLabel("Estado de la IA"), gbc);
@@ -242,3 +235,87 @@ class LimitedReverseQueueListModel extends AbstractListModel<String> {
     return Math.min(queue.getSize(), limit);
   }
 };
+
+class FightPanel extends JPanel {
+  private JLabel leftId;
+  private JLabel rightId;
+  private JLabel leftIcon;
+  private JLabel rightIcon;
+  private Box leftBox;
+  private Box rightBox;
+
+  public FightPanel() {
+    leftId = new JLabel();
+    rightId = new JLabel();
+    leftIcon = new JLabel();
+    rightIcon = new JLabel();
+    leftBox = Box.createVerticalBox();
+    rightBox = Box.createVerticalBox();
+
+    GridBagConstraints gbc;
+    setLayout(new GridBagLayout());
+
+    gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.gridx = 2;
+    this.add(new TitleLabel("VS"), gbc);
+
+    gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.gridx = 0;
+    this.add(leftBox, gbc);
+    this.add(Box.createHorizontalStrut(128), gbc);
+    gbc.gridx = 4;
+    this.add(rightBox, gbc);
+    this.add(Box.createHorizontalStrut(128), gbc);
+
+    gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.gridx = 1;
+    gbc.insets = new Insets(8, 8, 8, 8);
+    this.add(leftIcon, gbc);
+    gbc.insets = new Insets(0, 0, 0, 0);
+    this.add(leftId, gbc);
+    gbc.gridx = 3;
+    gbc.insets = new Insets(8, 8, 8, 8);
+    this.add(rightIcon, gbc);
+    gbc.insets = new Insets(0, 0, 0, 0);
+    this.add(rightId, gbc);
+
+  }
+
+  public void setCharacters(Character leftCharacter, Character rightCharacter) {
+    leftId.setText(leftCharacter.getId());
+    rightId.setText(rightCharacter.getId());
+    leftIcon.setIcon(leftCharacter.getIcon());
+    rightIcon.setIcon(rightCharacter.getIcon());
+
+    leftBox.removeAll();
+    if (leftCharacter.getLifePoints() == Character.QUALITY_STAT) {
+      leftBox.add(new JLabel("Puntos de vida de calidad"));
+    }
+    if (leftCharacter.getStrength() == Character.QUALITY_STAT) {
+      leftBox.add(new JLabel("Fuerza de calidad"));
+    }
+    if (leftCharacter.getAgility() == Character.QUALITY_STAT) {
+      leftBox.add(new JLabel("Agilidad de calidad"));
+    }
+    if (leftCharacter.getSkills() == Character.QUALITY_STAT) {
+      leftBox.add(new JLabel("Habilidad de calidad"));
+    }
+
+    rightBox.removeAll();
+    if (rightCharacter.getLifePoints() == Character.QUALITY_STAT) {
+      rightBox.add(new JLabel("Puntos de vida de calidad"));
+    }
+    if (rightCharacter.getStrength() == Character.QUALITY_STAT) {
+      rightBox.add(new JLabel("Fuerza de calidad"));
+    }
+    if (rightCharacter.getAgility() == Character.QUALITY_STAT) {
+      rightBox.add(new JLabel("Agilidad de calidad"));
+    }
+    if (rightCharacter.getSkills() == Character.QUALITY_STAT) {
+      rightBox.add(new JLabel("Habilidad de calidad"));
+    }
+  }
+}

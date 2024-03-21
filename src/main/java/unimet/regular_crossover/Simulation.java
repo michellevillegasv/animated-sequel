@@ -1,5 +1,8 @@
 package unimet.regular_crossover;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 public class Simulation extends Thread {
   private ArtificialIntelligence artificialIntelligence;
   private Administrator administrator;
@@ -10,10 +13,16 @@ public class Simulation extends Thread {
   private CharacterQueue winners = new CharacterQueue();
 
   public Simulation() {
+    Icon[] avatarResources = new Icon[20];
+    for (int i = 0; i < 20; i++) {
+      avatarResources[i] = new ImageIcon(
+          ClassLoader.getSystemResource((String.format("avatar-icons/%02d.png", i + 1))));
+    }
+
     artificialIntelligence = new ArtificialIntelligence(this);
     administrator = new Administrator(this);
-    leftTeam = new Team("Avatar: The Last Airbender", "ATLA");
-    rightTeam = new Team("Regular Show", "RS");
+    leftTeam = new Team("Avatar: The Last Airbender", new CharacterFactory("ATLA", avatarResources));
+    rightTeam = new Team("Regular Show", new CharacterFactory("RS", avatarResources));
   }
 
   @Override
