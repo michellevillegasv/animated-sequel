@@ -210,7 +210,8 @@ class QueueList extends JScrollPane {
     JList<String> list = new JList<>(
         new QueueListModel(queue));
     setViewportView(list);
-    setPreferredSize(new Dimension(96, 128));
+    list.setMinimumSize(new Dimension(96, 128));
+    setMinimumSize(new Dimension(96, 128));
   }
 }
 
