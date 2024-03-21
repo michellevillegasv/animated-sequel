@@ -27,8 +27,6 @@ public class SimulationPanel extends JPanel {
   private JLabel iaStatusLabel;
 
   public SimulationPanel(Simulation simulation) {
-    setPreferredSize(new Dimension(1280, 800));
-
     QueueList cnQueue1List = new QueueList(
         simulation.getLeftTeam().getPriorityQueue()[Character.EXCEPTIONAL_TYPE]);
     QueueList cnQueue2List = new QueueList(
@@ -100,43 +98,35 @@ public class SimulationPanel extends JPanel {
     /* Panel de colas */
     JPanel queuesPanel = new JPanel(new GridBagLayout());
     gbc = new GridBagConstraints();
+    gbc.gridx = 1;
     gbc.anchor = GridBagConstraints.CENTER;
-    gbc.gridx = 0;
+    queuesPanel.add(new TitleLabel("vs"), gbc);
+
+    gbc = new GridBagConstraints();
+    gbc.anchor = GridBagConstraints.CENTER;
+    gbc.weightx = 1;
     gbc.insets = new Insets(8, 8, 8, 8);
 
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("CN Cola 1"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    gbc.gridx = 0;
+    queuesPanel.add(new TitleLabel(simulation.getLeftTeam().getName()), gbc);
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 1"), gbc);
     queuesPanel.add(cnQueue1List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("CN Cola 2"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 2"), gbc);
     queuesPanel.add(cnQueue2List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("CN Cola 3"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 3"), gbc);
     queuesPanel.add(cnQueue3List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("CN Cola Refuerzo"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Refuerzos"), gbc);
     queuesPanel.add(cnQueueRList, gbc);
 
-    gbc.gridx = 1;
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("Nick Cola 1"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    gbc.gridx = 2;
+    queuesPanel.add(new TitleLabel(simulation.getRightTeam().getName()), gbc);
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 1"), gbc);
     queuesPanel.add(nickQueue1List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("Nick Cola 2"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 2"), gbc);
     queuesPanel.add(nickQueue2List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("Nick Cola 3"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Nivel 3"), gbc);
     queuesPanel.add(nickQueue3List, gbc);
-    gbc.fill = GridBagConstraints.NONE;
-    queuesPanel.add(new TitleLabel("Nick Cola Refuerzo"), gbc);
-    gbc.fill = GridBagConstraints.BOTH;
+    queuesPanel.add(new SubtitleLabel("Cola de Refuerzos"), gbc);
     queuesPanel.add(nickQueueRList, gbc);
 
     /* Panel de simulación */
@@ -167,20 +157,25 @@ public class SimulationPanel extends JPanel {
     gbc.fill = GridBagConstraints.HORIZONTAL;
     gbc.weighty = 1;
     gbc.weightx = 1;
-    this.add(Box.createHorizontalStrut(64), gbc);
     gbc.weightx = 1;
     this.add(queuesPanel, gbc);
-    gbc.weightx = 2;
+    gbc.weightx = 1;
     this.add(simulationPanel, gbc);
-    this.add(Box.createHorizontalStrut(64), gbc);
   }
 }
 
 class TitleLabel extends JLabel {
   public TitleLabel(String text) {
     super(text);
-    setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
+    setFont(new Font(Font.SANS_SERIF, Font.BOLD, 14));
     setForeground(Color.BLUE);
+  }
+}
+
+class SubtitleLabel extends JLabel {
+  public SubtitleLabel(String text) {
+    super(text);
+    setFont(new Font(Font.SANS_SERIF, Font.BOLD, 12));
   }
 }
 
@@ -189,7 +184,7 @@ class QueueList extends JScrollPane {
     JList<String> list = new JList<>(
         new QueueListModel(queue));
     setViewportView(list);
-    setPreferredSize(new Dimension(64, 128));
+    setPreferredSize(new Dimension(96, 128));
   }
 }
 
