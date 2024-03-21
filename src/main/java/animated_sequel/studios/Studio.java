@@ -76,7 +76,7 @@ class Studio {
         }
     }
 
-    protected Character createCharacter() {
+    public Character createCharacter() {
         
         var name = "";
         var company = studioName;

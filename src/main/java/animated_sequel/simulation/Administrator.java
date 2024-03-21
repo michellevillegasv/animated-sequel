@@ -72,6 +72,7 @@ public class Administrator {
     }
     
     public void performCombatAssignment() {
+        int countRound=0;
         PriorityQueue<Character>[] cartoonQueues = new PriorityQueue[]{
             cartoon.getPriorityQueue1(),
             cartoon.getPriorityQueue2(),
@@ -89,13 +90,42 @@ public class Administrator {
             PriorityQueue<Character> nickelodeonQueue = nickelodeonQueues[i];
 
             while (!cartoonQueue.isEmpty() && !nickelodeonQueue.isEmpty()) {
+                if(countRound==2){
+                    addNewCharacters();
+                    countRound=0;
+                }
                 Character characterCartoon = cartoonQueue.poll();
                 Character characterNickelodeon = nickelodeonQueue.poll();
 
                 ia.combat(characterCartoon, characterNickelodeon, nickelodeonQueue, cartoonQueue, cartoon.getPriorityQueue1(), nickelodeon.getPriorityQueue1(), nickelodeon.getReinforceQueue(), cartoon.getReinforceQueue());
+                verifyCounter(cartoon.getPriorityQueue1(), cartoon.getPriorityQueue2(), cartoon.getPriorityQueue3(), nickelodeon.getPriorityQueue1(), nickelodeon.getPriorityQueue2(), nickelodeon.getPriorityQueue3());
+                countRound++;
             }
         }
     }
+    
+    public void addNewCharacters() {
+        double randomValue = Math.random();
+
+        if (randomValue <= 0.8) {
+
+            Character newCartoonCharacter = cartoon.createCharacter();
+            switch (newCartoonCharacter.getPriorityLevel()) {
+                case 1 -> cartoon.getPriorityQueue1().add(newCartoonCharacter, newCartoonCharacter.getPriorityLevel());
+                case 2 -> cartoon.getPriorityQueue2().add(newCartoonCharacter, newCartoonCharacter.getPriorityLevel());
+                default -> cartoon.getPriorityQueue3().add(newCartoonCharacter, newCartoonCharacter.getPriorityLevel());
+            }
+                
+            Character newNickelodeonCharacter = nickelodeon.createCharacter();
+            switch (newNickelodeonCharacter.getPriorityLevel()) {
+                case 1 -> nickelodeon.getPriorityQueue1().add(newNickelodeonCharacter, newNickelodeonCharacter.getPriorityLevel());
+                case 2 -> nickelodeon.getPriorityQueue2().add(newNickelodeonCharacter, newNickelodeonCharacter.getPriorityLevel());
+                default -> nickelodeon.getPriorityQueue3().add(newNickelodeonCharacter, newNickelodeonCharacter.getPriorityLevel());
+            }
+            
+        }
+    }
+    
     public void verifyCounter(PriorityQueue<Character> cartoonQueue1,PriorityQueue<Character> cartoonQueue2, PriorityQueue<Character> cartoonQueue3,PriorityQueue<Character> nickelodeonQueue1, PriorityQueue<Character> nickelodeonQueue2, PriorityQueue<Character> nickelodeonQueue3) {
         verifyAndMoveCharacters(cartoonQueue3, cartoonQueue2);
         verifyAndMoveCharacters(cartoonQueue2, cartoonQueue1);
