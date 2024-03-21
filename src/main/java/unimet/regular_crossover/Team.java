@@ -58,6 +58,12 @@ public class Team {
     return null;
   }
 
+  public boolean hasNextCharacter() {
+    /* Verifica si hay un personaje en cola */
+    return !priorityQueue[Character.EXCEPTIONAL_TYPE].isEmpty() && !priorityQueue[Character.AVERAGE_TYPE].isEmpty()
+        && !priorityQueue[Character.DEFICIENT_TYPE].isEmpty();
+  }
+
   public void updateQueues() {
     /* Incrementar contador de rondas en las colas de nivel 2 y 3 */
     priorityQueue[Character.AVERAGE_TYPE].forEach(character -> {
@@ -69,13 +75,15 @@ public class Team {
     });
 
     /* Subir de nivel a los personajes con 8 o más rondas inactivos */
-    while (priorityQueue[Character.AVERAGE_TYPE].peek().getRoundCounter() >= 8) {
+    while (!priorityQueue[Character.AVERAGE_TYPE].isEmpty()
+        && priorityQueue[Character.AVERAGE_TYPE].peek().getRoundCounter() >= 8) {
       Character character = priorityQueue[Character.AVERAGE_TYPE].dequeue();
       character.resetRoundCounter();
       priorityQueue[Character.EXCEPTIONAL_TYPE].enqueue(character);
     }
 
-    while (priorityQueue[Character.DEFICIENT_TYPE].peek().getRoundCounter() >= 8) {
+    while (!priorityQueue[Character.DEFICIENT_TYPE].isEmpty()
+        && priorityQueue[Character.DEFICIENT_TYPE].peek().getRoundCounter() >= 8) {
       Character character = priorityQueue[Character.DEFICIENT_TYPE].dequeue();
       character.resetRoundCounter();
       priorityQueue[Character.AVERAGE_TYPE].enqueue(character);
@@ -108,5 +116,13 @@ public class Team {
 
   public String getCode() {
     return code;
+  }
+
+  public CharacterQueue[] getPriorityQueue() {
+    return priorityQueue;
+  }
+
+  public CharacterQueue getReinforcementQueue() {
+    return reinforcementQueue;
   }
 }

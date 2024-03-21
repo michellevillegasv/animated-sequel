@@ -5,6 +5,7 @@ public class Simulation extends Thread {
   private Administrator administrator;
   private Team leftTeam;
   private Team rightTeam;
+  private int speed = 1;
 
   private CharacterQueue winners = new CharacterQueue();
 
@@ -44,9 +45,17 @@ public class Simulation extends Thread {
     return winners;
   }
 
+  public int getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(int speed) {
+    this.speed = speed;
+  }
+
   protected void sleepSeconds(int seconds) {
     try {
-      Thread.sleep(seconds * 1000);
+      Thread.sleep((long) (seconds * 1000 / speed));
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

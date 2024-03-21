@@ -26,9 +26,9 @@ public class Character {
 
     int rating = skills + lifePoints + strength + agility;
 
-    if (rating >= 4) {
+    if (rating == 4) {
       this.type = EXCEPTIONAL_TYPE;
-    } else if (rating >= 2) {
+    } else if (rating == 3) {
       this.type = AVERAGE_TYPE;
     } else {
       this.type = DEFICIENT_TYPE;

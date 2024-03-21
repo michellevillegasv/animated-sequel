@@ -13,6 +13,9 @@ public class Administrator {
 
   public void simulateRound() {
     roundCounter = (roundCounter + 1) % 2;
+    simulation.getLeftTeam().updateQueues();
+    simulation.getRightTeam().updateQueues();
+
     /*
      * Cada dos turnos existe un 80% de probabilidad de crear un par de personajes
      */

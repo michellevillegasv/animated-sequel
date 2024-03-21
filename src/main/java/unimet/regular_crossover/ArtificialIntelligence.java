@@ -1,5 +1,7 @@
 package unimet.regular_crossover;
 
+import unimet.regular_crossover.utils.Observer;
+
 public class ArtificialIntelligence {
   private static final double TIE_ODDS = 0.27;
   private static final double SUSPEND_ODDS = 0.33;
@@ -19,6 +21,10 @@ public class ArtificialIntelligence {
 
   private static final int DECIDING_DELAY = 10;
 
+  private final Observer<Integer> resultObserver = new Observer<>();
+  private final Observer<Integer> statusObserver = new Observer<>();
+  private final Observer<Character[]> fightObserver = new Observer<>();
+
   private final Simulation simulation;
 
   private int status = WAITING_STATUS;
@@ -29,6 +35,7 @@ public class ArtificialIntelligence {
 
   public void setStatus(int status) {
     this.status = status;
+    statusObserver.notify(status);
   }
 
   public int getStatus() {
@@ -37,8 +44,14 @@ public class ArtificialIntelligence {
 
   public void simulateRound() {
     /* Obtener los personajes que pelearán */
+    if (!simulation.getLeftTeam().hasNextCharacter() || !simulation.getRightTeam().hasNextCharacter()) {
+      setStatus(WAITING_STATUS);
+      return;
+    }
+
     Character leftCharacter = simulation.getLeftTeam().dequeueNextCharacter();
     Character rightCharacter = simulation.getRightTeam().dequeueNextCharacter();
+    fightObserver.notify(new Character[] { leftCharacter, rightCharacter });
 
     /* Dormir mientras decide */
     setStatus(DECIDING_STATUS);
@@ -46,6 +59,7 @@ public class ArtificialIntelligence {
 
     /* Tomar decisión */
     int result = performFight(leftCharacter, rightCharacter);
+    resultObserver.notify(result);
 
     setStatus(ANNOUNCING_STATUS);
 
@@ -103,5 +117,17 @@ public class ArtificialIntelligence {
 
   private int compare(int a, int b) {
     return a > b ? 1 : 0;
+  }
+
+  public Observer<Integer> getResultObserver() {
+    return resultObserver;
+  }
+
+  public Observer<Integer> getStatusObserver() {
+    return statusObserver;
+  }
+
+  public Observer<Character[]> getFightObserver() {
+    return fightObserver;
   }
 }

@@ -2,7 +2,11 @@ package unimet.regular_crossover;
 
 import java.util.function.Consumer;
 
+import unimet.regular_crossover.utils.Observer;
+
 public class CharacterQueue {
+  private final Observer<CharacterQueue> observer = new Observer<>();
+
   private Node head;
   private Node tail;
   private int size;
@@ -16,6 +20,8 @@ public class CharacterQueue {
       tail = node;
     }
     size += 1;
+
+    observer.notify(this);
   }
 
   public Character dequeue() {
@@ -28,6 +34,8 @@ public class CharacterQueue {
       tail = null;
     }
     size -= 1;
+
+    observer.notify(this);
     return character;
   }
 
@@ -44,12 +52,26 @@ public class CharacterQueue {
     }
   }
 
+  public Character getElementAt(int index) {
+    int i = 0;
+    for (Node node = head; node != null; node = node.getNext()) {
+      if (index == i++) {
+        return node.getCharacter();
+      }
+    }
+    return null;
+  }
+
   public boolean isEmpty() {
     return head == null;
   }
 
   public int getSize() {
     return size;
+  }
+
+  public Observer<CharacterQueue> getObserver() {
+    return observer;
   }
 
   private static class Node {
